@@ -6,5 +6,5 @@ const products = [
     {name: "Banana", fat: 0.3, carbs: 21, whey: 1, kcal: 87.7 }
 ];
 
-let produktyLight;
+let lightProducts;
 // [ {...Apple}, {...Plum} ];
