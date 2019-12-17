@@ -6,5 +6,6 @@ const products = [
     {name: "Banana", fat: 0.3, carbs: 21, whey: 1, kcal: 87.7 }
 ];
 
-var kcalSum;
+let kcalSum = products.reduce((acc, product) => acc + product.kcal, 0);
+console.log(kcalSum);
 //178

@@ -6,5 +6,6 @@ const products = [
     {name: "Banana", fat: 0.3, carbs: 21, whey: 1}
 ];
 
-let productNames;
+let productNames = products.map(product => product.name);
+console.log(productNames);
 // ['Apple', 'Plum', 'Banana']

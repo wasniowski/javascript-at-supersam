@@ -6,5 +6,6 @@ const products = [
     {name: "Banana", fat: 0.3, carbs: 21, whey: 1, kcal: 87.7 }
 ];
 
-let produktyLight;
+let lightProducts = products.filter(product => product.kcal < 50 );
+console.log(lightProducts);
 // [ {...Apple}, {...Plum} ];
