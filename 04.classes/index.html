@@ -1,0 +1,45 @@
+<html>
+    <meta charset="UTF-8">
+    <script>
+        // stwórz klasę Person, która będzie zawierała właściwości:
+        // name, lastName oraz address
+        // stwórz kolekcję people = [] oraz umieść w niej 3 obiekty klasy Person
+
+        class Person {
+            constructor(name, lastName) {
+                this.name = name;
+                this.lastName = lastName;
+            }
+        }
+
+        const people = [new Person('kamil','wasniowski'), new Person('jan', 'kowalski'), new Person('anna', 'nowak')];
+
+
+        // ---------------------------------------------------------
+        // Kod poniżej jest po to aby wyświetlić rezultat w przeglądarce.
+        // Uruchom ten plik w przeglądarce - jeśli popranie wykonasz ćwiczenie zobaczysz listę osób.
+        // Nie musisz edytować tego kodu - ale możesz go przeczytać aby zrozumieć co robi ;)
+
+        document.addEventListener('DOMContentLoaded', function () {
+
+            const peopleListRef = document.querySelector('.people');
+
+            function fillList(collection, listRef){
+                collection.forEach(person => {
+                    const listElement = document.createElement('li');
+                    listElement.appendChild(document.createTextNode(`${person.name} - ${person.lastName}`));
+
+                    listRef.appendChild(listElement);
+                })
+            }
+
+            fillList(people, peopleListRef);
+
+        }, false);
+    </script>
+
+    <body>
+        <ul class="people"></ul>
+    </body>
+    <style></style>
+</html>

@@ -1,0 +1,72 @@
+<html>
+    <meta charset="UTF-8">
+    <script>
+        // 1) stwórz klasę Person, która będzie zawierała właściwości:
+        //    name, lastName oraz type, który domyślnie zawsze będzie ustawiany na 'student'
+        // 2) Stwórz kolejną klasę Teacher która będzie reprezentowała nauczyciela, klasa Teacher ma dziedziczyć
+        //    po klasie Person (rozszerzać ją) oraz nadipsywać własność type na 'teacher'
+        // 3) Stwórz kolekcję people = [] oraz umieść w niej 5 obiektów różnych klas (Person i Teacher) w losowej kolejności
+        // 4) Na podstawie kolekcji people stwórz kolekcje teachers = [] i students = [] do których trafią odpowiednie obiekty
+        //    Wykorzystaj do tego poznane wcześniej techniki do manipulacji kolekcjami (map, filter, reduce)
+
+        class Person {
+            constructor(name, lastName) {
+                this.name = name;
+                this.lastName = lastName;
+                this.type = 'student';
+            }
+        }
+
+        class Teacher extends Person {
+            constructor(name, lastName) {
+                super(name, lastName);
+                this.type = 'teacher';
+            }
+        }
+
+        const people = [
+            new Person('jan', 'nowak'),
+            new Person('grzegorz', 'brzeczyszczykiewicz'),
+            new Teacher('tomasz', 'nowak'),
+            new Person('anka', 'skakanka'),
+            new Teacher('joahim', 'loew')
+        ];
+
+        const teachers = people.filter(person => person.type === 'teacher');
+        const students = people.filter(person => person.type === 'student');
+
+
+        // ---------------------------------------------------------
+        // Kod poniżej jest po to aby wyświetlić rezultat w przeglądarce.
+        // Uruchom ten plik w przeglądarce - jeśli popranie wykonasz ćwiczenie zobaczysz listę osób.
+        // Nie musisz edytować tego kodu - ale możesz go przeczytać aby zrozumieć co robi ;)
+
+        document.addEventListener('DOMContentLoaded', function () {
+
+            const teachersListRef = document.querySelector('.teachers');
+            const studentsListRef = document.querySelector('.students');
+
+            function fillList(collection, listRef){
+                collection.forEach(person => {
+                    const listElement = document.createElement('li');
+                    listElement.appendChild(document.createTextNode(`${person.name} - ${person.lastName}`));
+
+                    listRef.appendChild(listElement);
+                })
+            }
+
+            fillList(teachers, teachersListRef);
+            fillList(students, studentsListRef);
+
+        }, false);
+    </script>
+
+    <body>
+        <h3>Teachers</h3>
+        <ul class="teachers"></ul>
+
+        <h3>Students</h3>
+        <ul class="students"></ul>
+    </body>
+    <style></style>
+</html>
