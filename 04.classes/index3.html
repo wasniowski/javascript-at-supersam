@@ -1,0 +1,76 @@
+<html>
+    <meta charset="UTF-8">
+    <script>
+        // 1) stwórz klasę TV, która będzie zawierała właściwości: producer, volume oraz channel
+        // oraz metody: volumeUp, volumeDown, channelUp, channelDown
+        // 2) Stwórz instancję tej klasy (const sony...) i ustaw jej właściwości:
+        // producer - sony, volume - 20, channel - 1
+        // zaimplementuj metody tak, aby zmieniały wartości volume oraz channel w odpowiedni sposób.
+        // Twój telewizor powinien operować głośnością w skali 0 - 99, oraz powinien mieć 99 programów.
+
+        class TV {
+
+        }
+
+        let sony;
+
+
+        // ---------------------------------------------------------
+        // Kod poniżej jest po to aby wyświetlić rezultat w przeglądarce.
+        // Uruchom ten plik w przeglądarce - jeśli popranie wykonasz ćwiczenie zobaczysz listę osób.
+        // Nie musisz edytować tego kodu - ale możesz go przeczytać aby zrozumieć co robi ;)
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+
+            const tvNameSpan = document.querySelector('.tv-name');
+            const tvChannelSpan = document.querySelector('.tv-channel');
+            const tvVolumeSpan = document.querySelector('.tv-volume');
+
+            tvNameSpan.textContent = sony.producer;
+            tvChannelSpan.textContent = sony.channel;
+            tvVolumeSpan.textContent = sony.volume;
+
+            const channelUpBtn = document.querySelector('.channel-up');
+            channelUpBtn.addEventListener('click', () => {
+                sony.channelUp();
+                tvChannelSpan.textContent = sony.channel;
+            });
+
+            const channelDownBtn = document.querySelector('.channel-down');
+            channelDownBtn.addEventListener('click', () => {
+                sony.channelDown();
+                tvChannelSpan.textContent = sony.channel;
+            });
+
+            const volumeUpBtn = document.querySelector('.volume-up');
+            volumeUpBtn.addEventListener('click', () => {
+                sony.volumeUp();
+                tvVolumeSpan.textContent = sony.volume;
+            });
+
+            const volumeDownBtn = document.querySelector('.volume-down');
+            volumeDownBtn.addEventListener('click', () => {
+                sony.volumeDown();
+                tvVolumeSpan.textContent = sony.volume;
+            });
+
+        }, false);
+
+
+    </script>
+
+    <body>
+        <h3>TV</h3>
+        <p class="sony">
+            <span>Name: </span><span class="tv-name"></span><br/>
+            <span>Channel: </span><span class="tv-channel"></span><br/>
+            <span>Volume: </span><span class="tv-volume"></span>
+        </p>
+        <button class="channel-up">Channel Up</button>
+        <button class="channel-down">Channel Down</button>
+        <button class="volume-up">Volume Up</button>
+        <button class="volume-down">Volume Down</button>
+    </body>
+    <style></style>
+</html>
