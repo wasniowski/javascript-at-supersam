@@ -1,0 +1,180 @@
+<html>
+<meta charset="UTF-8">
+<script>
+    // 1) stwórz klasę Product, która będzie miała właściwości name oraz price,
+    // a następnie stwórz kolekcję products i dodaj do niej kilka obiektów klasy produkt.
+
+    // 2) Stwórz klasę Cart - która będzie koszykiem sklepowym.
+    // Powinna ona mieć metody: addToCart(), removeFromCart(), emptyCart()
+
+    // Spróbuj napisać program, który będzie dodawał produkty do koszyka, gdzie będzie można zwiększać/zmniejszać
+    // ilość danego produktu, opraz opróżniać koszyk.
+    // Ponowne dodanie do koszyka tego samego produktu, powinno zwiększyć jego ilość (zamiast duplikować ten sam produkt na liście)
+
+    // HINT: Implementacji może być wiele - ja bym stworzył jeszcze jedną klasę CartProducts, która dziedziczyłaby po Product
+    // a dodatkowo zawierała by właściwość quantity i metody increaseQty() oraz decreaseQty() i takie produkty dodawałbym do koszyka.
+
+    class Product {
+        constructor(name, price) {
+            this.name = name;
+            this.price = price;
+        }
+    }
+
+    class CartProduct extends Product {
+        constructor(name, price) {
+            super(name, price);
+            this.quantity = 1;
+        }
+
+        increaseQty() {
+            this.quantity++;
+        }
+
+        decreaseQty() {
+            this.quantity--;
+        }
+
+    }
+
+    class Cart {
+        constructor() {
+            this.products = [];
+        }
+
+        getProducts() {
+            return this.products;
+        }
+
+        addToCart({name, price}) {
+            if (this.products.some(product => product.name === name)) {
+                this.products.forEach(product => {
+                    if (product.name === name) {
+                        product.increaseQty();
+                    }
+                })
+            } else {
+                this.products.push(new CartProduct(name, price));
+            }
+        }
+
+        removeFromCart(product) {
+            const index = this.products.indexOf(product);
+            this.products.splice(index, 1);
+        }
+
+        emptyCart() {
+            this.products = [];
+        }
+    }
+
+    const products = [
+        new Product('apple', 5),
+        new Product('banana', 7),
+        new Product('grape', 10)
+    ];
+
+    const cart = new Cart();
+
+
+    // ---------------------------------------------------------
+    // Kod poniżej jest po to aby wyświetlić rezultat w przeglądarce.
+    // Uruchom ten plik w przeglądarce - jeśli popranie wykonasz ćwiczenie zobaczysz listę osób.
+    // Nie musisz edytować tego kodu - ale możesz go przeczytać aby zrozumieć co robi ;)
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const productsListRef = document.querySelector('.products');
+
+        function fillList(collection, listRef){
+            collection.forEach(product => {
+                const listElement = document.createElement('li');
+
+                const spanElement = document.createElement('span');
+                spanElement.appendChild(document.createTextNode(`${product.name} | cena: ${product.price}`));
+
+                const addToCartButtonElement = document.createElement('button');
+                addToCartButtonElement.appendChild(document.createTextNode(`Dodaj do koszyka`));
+                addToCartButtonElement.addEventListener('click', () => {
+                    cart.addToCart(product);
+                    fillCartList();
+                });
+
+                listElement.appendChild(spanElement);
+                listElement.appendChild(addToCartButtonElement);
+
+                listRef.appendChild(listElement);
+            })
+        }
+
+        fillList(products, productsListRef);
+
+        function fillCartList() {
+            const cartListRef = document.querySelector('.cart');
+            cartListRef.innerHTML = '';
+
+            const products = cart.getProducts();
+
+            products.forEach(product => {
+                const listElement = document.createElement('li');
+
+                const spanElement = document.createElement('span');
+                spanElement.appendChild(document.createTextNode(`${product.name} | cena: ${product.price} | ilość: ${product.quantity} | suma: ${product.price * product.quantity}`));
+
+                const plusButtonElement = document.createElement('button');
+                plusButtonElement.appendChild(document.createTextNode(`+`));
+                plusButtonElement.addEventListener('click', () => {
+                    product.increaseQty();
+                    fillCartList();
+                });
+
+                const minusButtonElement = document.createElement('button');
+                minusButtonElement.appendChild(document.createTextNode(`-`));
+                minusButtonElement.addEventListener('click', () => {
+                    if (product.quantity > 1) {
+                        product.decreaseQty();
+                    } else {
+                        cart.removeFromCart(product);
+                    }
+
+                    fillCartList();
+                });
+
+                const removeButtonElement = document.createElement('button');
+                removeButtonElement.appendChild(document.createTextNode(`Usuń produkt`));
+                removeButtonElement.addEventListener('click', () => {
+                    cart.removeFromCart(product);
+                    fillCartList();
+                });
+
+                listElement.appendChild(spanElement);
+                listElement.appendChild(plusButtonElement);
+                listElement.appendChild(minusButtonElement);
+                listElement.appendChild(removeButtonElement);
+
+                cartListRef.appendChild(listElement);
+            })
+        }
+
+        const clearBtnRef = document.querySelector('.clear-cart');
+        clearBtnRef.addEventListener('click', () => {
+            cart.emptyCart();
+            fillCartList();
+        })
+
+
+    }, false);
+
+</script>
+
+<body>
+<h3>Produkty</h3>
+<ul class="products"></ul>
+
+<h3>Koszyk</h3>
+<ul class="cart"></ul>
+<button class="clear-cart">Opróżnij koszyk</button>
+</body>
+<style></style>
+</html>
