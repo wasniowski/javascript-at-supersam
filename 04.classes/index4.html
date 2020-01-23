@@ -8,33 +8,112 @@
         // Powinna ona mieć metody: addToCart(), removeFromCart(), emptyCart()
 
         // Spróbuj napisać program, który będzie dodawał produkty do koszyka, gdzie będzie można zwiększać/zmniejszać
-        // ilość danego produktu, opraz opróżniać koszyk
+        // ilość danego produktu, opraz opróżniać koszyk.
+        // Ponowne dodanie do koszyka tego samego produktu, powinno zwiększyć jego ilość (zamiast duplikować ten sam produkt na liście)
 
         // HINT: Implementacji może być wiele - ja bym stworzył jeszcze jedną klasę CartProducts, która dziedziczyłaby po Product
-        // a dodatkowo zawierała by właściwości quantity i metody increaseQty() oraz decreaseQty() i takie produkty dodawałbym do koszyka.
+        // a dodatkowo zawierała by właściwość quantity i metody increaseQty() oraz decreaseQty() i takie produkty dodawałbym do koszyka.
 
         class Product {
 
         }
+
 
         class Cart {
 
         }
 
         const products = [];
+        const cart = new Cart();
 
 
         // ---------------------------------------------------------
-        // UI napisze do tego wkrótce ;) A jeśli chcesz - możesz spróbować sam / sama ;)
+        // Kod poniżej jest po to aby wyświetlić rezultat w przeglądarce.
+        // Uruchom ten plik w przeglądarce - jeśli popranie wykonasz ćwiczenie zobaczysz listę osób.
+        // Nie musisz edytować tego kodu - ale możesz go przeczytać aby zrozumieć co robi ;)
 
 
         document.addEventListener('DOMContentLoaded', function () {
 
-            // soon
+            const productsListRef = document.querySelector('.products');
 
+            function fillList(collection, listRef){
+                collection.forEach(product => {
+                    const listElement = document.createElement('li');
+
+                    const spanElement = document.createElement('span');
+                    spanElement.appendChild(document.createTextNode(`${product.name} | cena: ${product.price}`));
+
+                    const addToCartButtonElement = document.createElement('button');
+                    addToCartButtonElement.appendChild(document.createTextNode(`Dodaj do koszyka`));
+                    addToCartButtonElement.addEventListener('click', () => {
+                        cart.addToCart(product);
+                        fillCartList();
+                    });
+
+                    listElement.appendChild(spanElement);
+                    listElement.appendChild(addToCartButtonElement);
+
+                    listRef.appendChild(listElement);
+                })
+            }
+
+            fillList(products, productsListRef);
+
+            function fillCartList() {
+                const cartListRef = document.querySelector('.cart');
+                cartListRef.innerHTML = '';
+
+                const products = cart.getProducts();
+
+                products.forEach(product => {
+                    const listElement = document.createElement('li');
+
+                    const spanElement = document.createElement('span');
+                    spanElement.appendChild(document.createTextNode(`${product.name} | cena: ${product.price} | ilość: ${product.quantity} | suma: ${product.price * product.quantity}`));
+
+                    const plusButtonElement = document.createElement('button');
+                    plusButtonElement.appendChild(document.createTextNode(`+`));
+                    plusButtonElement.addEventListener('click', () => {
+                        product.increaseQty();
+                        fillCartList();
+                    });
+
+                    const minusButtonElement = document.createElement('button');
+                    minusButtonElement.appendChild(document.createTextNode(`-`));
+                    minusButtonElement.addEventListener('click', () => {
+                        if (product.quantity > 1) {
+                            product.decreaseQty();
+                        } else {
+                            cart.removeFromCart(product);
+                        }
+
+                        fillCartList();
+                    });
+
+                    const removeButtonElement = document.createElement('button');
+                    removeButtonElement.appendChild(document.createTextNode(`Usuń produkt`));
+                    removeButtonElement.addEventListener('click', () => {
+                        cart.removeFromCart(product);
+                        fillCartList();
+                    });
+
+                    listElement.appendChild(spanElement);
+                    listElement.appendChild(plusButtonElement);
+                    listElement.appendChild(minusButtonElement);
+                    listElement.appendChild(removeButtonElement);
+
+                    cartListRef.appendChild(listElement);
+                })
+            }
+
+            const clearBtnRef = document.querySelector('.clear-cart');
+            clearBtnRef.addEventListener('click', () => {
+                cart.emptyCart();
+                fillCartList();
+            })
 
         }, false);
-
 
     </script>
 
@@ -44,6 +123,7 @@
 
         <h3>Koszyk</h3>
         <ul class="cart"></ul>
+        <button class="clear-cart">Opróżnij koszyk</button>
     </body>
     <style></style>
 </html>
